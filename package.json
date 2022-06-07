@@ -1,0 +1,29 @@
+{
+    "name": "CenturionJS",
+    "version": "0.1",
+    "description": "Javascript Emulator for the Centurion Minicomputer",
+    "scripts": {
+        "start": "cd build; node ./emulator.js",
+        "build": "rimraf ./build && tsc",
+        "package": "./node_modules/.bin/esbuild src/emulator.ts --bundle --outfile=out.js --platform=node --external:sprintf-js --external:./debug",
+        "terser": "terser -m -c --toplevel --rename -o emulator.js out.js",
+        "lint": "eslint src --ext .ts",
+        "format": "prettier --config .prettierrc --ignore-path .gitignore --write \"src/**/*.ts\""
+    },
+    "dependencies": {
+        "@types/node": "^17.0.30",
+        "sprintf-js": "^1.1.2"
+    },
+    "devDependencies": {
+        "@types/sprintf-js": "^1.1.2",
+        "@typescript-eslint/eslint-plugin": "^5.21.0",
+        "@typescript-eslint/parser": "^5.21.0",
+        "esbuild": "^0.14.42",
+        "eslint": "^8.14.0",
+        "prettier": "2.5.1",
+        "rimraf": "^3.0.2",
+        "typescript": "^4.6.3"
+    },
+    "author": "Draco Drake",
+    "license": "GPL-2"
+}
