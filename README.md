@@ -32,6 +32,7 @@ Pull requests are welcome. For major changes, please open an issue first to disc
 * Chris Giorgi
 * tergav17 (Gavin) 
 * Nakazoto(UsagiElectric) [ https://github.com/Nakazoto/CenturionComputer/wiki ]
+* Ken Romaine
 
 ## Video
 
