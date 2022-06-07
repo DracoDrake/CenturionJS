@@ -1,7 +1,7 @@
 {
     "name": "CenturionJS",
     "version": "0.1",
-    "description": "Javascript Emulator for the Centurion Minicomputer",
+    "description": "Typescript Emulator for the Centurion Minicomputer",
     "scripts": {
         "start": "cd build; node ./emulator.js",
         "build": "rimraf ./build && tsc",

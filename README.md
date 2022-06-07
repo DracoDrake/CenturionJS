@@ -26,5 +26,17 @@ from https://github.com/phire/centurion_isa/tree/main/roms<br>
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
+## Special Thanks
+
+* Alan Cox [ https://github.com/EtchedPixels ]
+* Chris Giorgi
+* tergav17 (Gavin) 
+* Nakazoto(UsagiElectric) [ https://github.com/Nakazoto/CenturionComputer/wiki ]
+
+## Video
+
+This was all started by Nakazoto(UsagiElectric) buying a Centruion Minicomputer.<br>
+[Here are his videos, documenting the journey.](https://www.youtube.com/playlist?list=PLnw98JPyObn0wJFdbcRDP7LMz8Aw2T97V)<br>
+
 ## License
 GPL-2.0
