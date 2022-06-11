@@ -21,7 +21,7 @@ from https://github.com/phire/centurion_isa/tree/main/roms<br>
   * `Diag_F3_Rev_1.0.BIN`
   * `Diag_F4_1133CMD.BIN`
 
-* From the main folder, run 'node ./build/emulator.js'
+* From the main folder, run 'node ./build/Emulator.js'
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
