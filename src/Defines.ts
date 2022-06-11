@@ -1,6 +1,6 @@
 
 /**
- * defines.ts
+ * Defines.ts
  * 
  * This file is part of CenturionJS, a Javascript Emulator of a Centurion Minicomputer
  * Copyright (c) 2022 Mike Cole
