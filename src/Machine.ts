@@ -34,9 +34,11 @@ export default class Machine {
     aux_slots = 1000
 
     cpu: CPU | undefined
+    steps: Function[] = []
 
     constructor() {
-
+        // rom is on the backplane
+        this.loadROM("./roms/bootstrap_unscrambled.bin", 0x3FC00, 0x0200)
     }
 
     reset() {
@@ -51,6 +53,7 @@ export default class Machine {
     addCard(card: Card, slot: number) {
         if (card instanceof CPU) {
             this.cpu = card
+            this.registerStep(this.cpu.step.bind(this.cpu))
         }
         else {
             if (this.cards[slot] !== undefined) {
@@ -58,7 +61,7 @@ export default class Machine {
             }
             this.cards[slot] = card
         }
-        card.init(this)
+        card.init()
     }
 
     registerAddressSpace(card: Card, addr: number, len: number) {
@@ -73,66 +76,10 @@ export default class Machine {
         this.addressReservations.push(reservation)
     }
    
-    // mapAddressSpace(card: Card, addr: number, len: number) {
-    //     const block_start = addr >> 8
-    //     const block_end = (len >> 8) + block_start
-    
-    //     for(let block = block_start; block < block_end; block++) {
-    //         this.map[block] = []
-    //         this.map[block][READ] = []
-    //         this.map[block][READ][U8] = card.read_U8
-    //         this.map[block][READ][I8] = card.read_I8
-    //         this.map[block][READ][U16] = card.read_U16
-    //         this.map[block][READ][I16] = card.read_I16
-    //         this.map[block][WRITE] = []
-    //         this.map[block][WRITE][U8] = card.write_U8
-    //         this.map[block][WRITE][I8] = card.write_I8
-    //         this.map[block][WRITE][U16] = card.write_U16
-    //         this.map[block][WRITE][I16] = card.write_I16
-    //         this.map_this[block] = card
-    //     }
-    // }
- 
-    // read_U8(addr: number): number {
-    //     const block = addr >> 8
-    //     return this.map[block][READ][U8].call(this.map_this[block], addr)
-    // }
-    
-    // read_I8(addr: number): number {
-    //     const block = addr >> 8
-    //     return this.map[block][READ][I8].call(this.map_this[block], addr)
-    // }
-    
-    // read_U16(addr: number): number {
-    //     const block = addr >> 8
-    //     return this.map[block][READ][U16].call(this.map_this[block], addr)
-    // }
-    
-    // read_I16(addr: number) {
-    //     const block = addr >> 8
-    //     return this.map[block][READ][I16].call(this.map_this[block], addr)
-    // }
-    
-    // write_U8(addr: number, value: number) {
-    //     const block = addr >> 8
-    //     this.map[block][WRITE][U8].call(this.map_this[block], addr, value)
-    // }
-    
-    // write_I8(addr: number, value: number) {
-    //     const block = addr >> 8
-    //     this.map[block][WRITE][I8].call(this.map_this[block], addr, value)
-    // }
-    
-    // write_U16(addr: number, value: number) {
-    //     const block = addr >> 8
-    //     this.map[block][WRITE][U16].call(this.map_this[block], addr, value)
-    // }
-    
-    // write_I16(addr: number, value: number) {
-    //     const block = addr >> 8
-    //     this.map[block][WRITE][I16].call(this.map_this[block], addr, value)
-    // }
-    
+    registerStep(step_func: Function) {
+        this.steps.push(step_func)
+    }
+
     read_U8(addr: number): number {
         for(const reservation of this.addressReservations) {
             if (addr >= reservation.start_addr && addr <= reservation.end_addr) {
@@ -202,20 +149,30 @@ export default class Machine {
     }
 
     loadROM(filename: string, addr: number, size: number) {
-        const card = new RomCard({start_address: addr, size: size, filename: filename})
+        const card = new RomCard(this, {start_address: addr, size: size, filename: filename})
         this.addCard(card, this.aux_slots++)
         return card
     }
      
     addAuxRAM(addr: number, size: number) {
-        const card = new RamCard({start_address: addr, size: size})
+        const card = new RamCard(this, {start_address: addr, size: size})
         this.addCard(card, this.aux_slots++)
         return card
     }
 
     addAuxRAMMirror(card: RamCard, addr: number) {
-        const mirror_card = new RamCard({start_address: addr, size: card.options.size, buffer: card.ram_buffer})
+        const mirror_card = new RamCard(this, {start_address: addr, size: card.options.size, buffer: card.ram_buffer})
         this.addCard(mirror_card, this.aux_slots++)
         return card       
+    }
+
+    step() {
+        this.steps.forEach(step => {
+            step()
+        })
+    }
+
+    dma_read_cycle(data: number[]) {
+        return true
     }
 }

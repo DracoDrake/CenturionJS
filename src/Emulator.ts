@@ -35,12 +35,12 @@ export default class CenturionEmulator {
         this.machine = new Machine()
 
         // Add CPU6 Card
-        this.cpu = new CPU6Card({
+        this.cpu = new CPU6Card(this.machine, {
         })
         this.machine.addCard(this.cpu, 1)
 
         // Add Mux Card
-        this.mux1 = new MuxCard({
+        this.mux1 = new MuxCard(this.machine, {
             start_address: 0x3F200,
             read_callback: this.mux_read.bind(this),
             write_callback: this.mux_write.bind(this),
@@ -49,20 +49,20 @@ export default class CenturionEmulator {
         this.machine.addCard(this.mux1, 4)
 
         // Add Diagnostic Card
-        this.diag = new DiagnosticCard({
+        this.diag = new DiagnosticCard(this.machine, {
             displayCallback: this.updateHexDisplay
         })
         this.machine.addCard(this.diag, 5)
 
         // Add Ram Card 1
-        this.ram1 = new RamCard({
+        this.ram1 = new RamCard(this.machine, {
             start_address: 0x0,
             size: 0x20000
         })
         this.machine.addCard(this.ram1, 6)
 
         // Add Ram Card 2
-        this.ram2 = new RamCard({
+        this.ram2 = new RamCard(this.machine, {
             start_address: 0x20000,
             size: 0x20000
         })
@@ -162,7 +162,7 @@ export default class CenturionEmulator {
 
     process() {
         let need_delay = false
-        need_delay = !this.cpu.step()
+        this.machine.step()
         // for (let i = 0; i < 1500; i++) {
         //     if (cpu.step() == false) {
         //         need_delay = true

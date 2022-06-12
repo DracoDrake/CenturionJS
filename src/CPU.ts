@@ -7,6 +7,7 @@
  * 
  */
 import Card, { CardOptions } from "./Card"
+import Machine from "./Machine"
 
 export interface CPUOptions extends CardOptions {
 
@@ -15,8 +16,8 @@ export interface CPUOptions extends CardOptions {
 export default class CPU extends Card {
     opcount
 
-    constructor(options: CPUOptions) {
-        super(options)
+    constructor(machine: Machine, options: CPUOptions) {
+        super(machine, options)
         this.opcount = 0
     }
 

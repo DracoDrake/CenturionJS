@@ -24,20 +24,20 @@ export default class DiagnosticCard extends Card {
     hexblank = true
     dots: boolean[] = [false, false, false, false]
 
-    constructor(options: DiagnosticOptions) {
-        super(options)
+    constructor(machine: Machine, options: DiagnosticOptions) {
+        super(machine, options)
         this.options = options
     }
 
-    init(machine: Machine) {
-        super.init(machine)
-        machine.registerAddressSpace(this, 0x3F106, 0x0F)
-        machine.loadROM("./roms/Diag_F1_Rev_1.0.BIN", 0x08000, 0x0800)
-        machine.loadROM("./roms/Diag_F2_Rev_1.0.BIN", 0x08800, 0x0800)
-        machine.loadROM("./roms/Diag_F3_Rev_1.0.BIN", 0x09000, 0x0800)
-        machine.loadROM("./roms/Diag_F4_1133CMD.BIN", 0x09800, 0x0800) 
-        const aux_ram = machine.addAuxRAM(0xB800, 0x400)
-        machine.addAuxRAMMirror(aux_ram, 0xBC00)       
+    init() {
+        super.init()
+        this.machine.registerAddressSpace(this, 0x3F106, 0x0F)
+        this.machine.loadROM("./roms/Diag_F1_Rev_1.0.BIN", 0x08000, 0x0800)
+        this.machine.loadROM("./roms/Diag_F2_Rev_1.0.BIN", 0x08800, 0x0800)
+        this.machine.loadROM("./roms/Diag_F3_Rev_1.0.BIN", 0x09000, 0x0800)
+        this.machine.loadROM("./roms/Diag_F4_1133CMD.BIN", 0x09800, 0x0800) 
+        const aux_ram = this.machine.addAuxRAM(0xB800, 0x400)
+        this.machine.addAuxRAMMirror(aux_ram, 0xBC00)       
     }
 
     reset() {

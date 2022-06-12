@@ -12,13 +12,13 @@ export interface CardOptions {
 }
 
 export default class Card {
-    machine: Machine | undefined
+    machine: Machine
 
-    constructor(options: CardOptions) {
+    constructor(machine: Machine, options: CardOptions) {
+        this.machine = machine
     }
 
-    init(machine: Machine) {
-        this.machine = machine
+    init() {
     }
 
     reset() {

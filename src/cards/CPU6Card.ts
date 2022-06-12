@@ -82,17 +82,14 @@ export default class CPU6Card extends CPU {
     mmu: number[] = []
     switches: number = 0
 
-    constructor(options: CPU6Options) {
-        super(options)
+    constructor(machine: Machine, options: CPU6Options) {
+        super(machine, options)
         this.sram_buffer = new ArrayBuffer(0x100) 
         this.sram = new DataView(this.sram_buffer)
-
-
     }
 
-    init(machine: Machine) {
-        this.machine = machine
-        machine.loadROM("./roms/bootstrap_unscrambled.bin", 0x3FC00, 0x0200)
+    init() {
+        this.machine.registerStep(this.step.bind(this))
         this.reset()
     }
 

@@ -59,8 +59,8 @@ export default class Mux extends Card {
     
     mux_status: MuxStatus[] = []
 
-    constructor(options: MuxOptions) {
-        super(options)
+    constructor(machine: Machine, options: MuxOptions) {
+        super(machine, options)
         this.options = options
 
         this.reset_status(0)
@@ -69,9 +69,9 @@ export default class Mux extends Card {
         this.reset_status(3)
     }
 
-    init(machine: Machine) {
-        super.init(machine)
-        machine.registerAddressSpace(this, this.options.start_address, 0x20)
+    init() {
+        super.init()
+        this.machine.registerAddressSpace(this, this.options.start_address, 0x20)
     }
 
     reset() {

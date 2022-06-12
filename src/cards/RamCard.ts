@@ -21,8 +21,8 @@ export default class RamCard extends Card {
     ram_buffer!: ArrayBuffer
     ram!: DataView
 
-    constructor(options: RamOptions) {
-        super(options)
+    constructor(machine: Machine, options: RamOptions) {
+        super(machine, options)
         this.options = options
         if (options.buffer !== undefined) {
             this.setBuffer(options.buffer)
@@ -32,9 +32,9 @@ export default class RamCard extends Card {
         }
     }
 
-    init(machine: Machine) {
-        super.init(machine)
-        machine.registerAddressSpace(this, this.options.start_address, this.options.size)
+    init() {
+        super.init()
+        this.machine.registerAddressSpace(this, this.options.start_address, this.options.size)
     }
 
     reset() {

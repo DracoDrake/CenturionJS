@@ -24,8 +24,8 @@ export default class RomCard extends Card {
     rom_buffer!: ArrayBuffer
     rom!: DataView
 
-    constructor(options: RomOptions) {
-        super(options)
+    constructor(machine: Machine, options: RomOptions) {
+        super(machine, options)
         this.options = options
         if (options.buffer !== undefined) {
             this.setBuffer(options.buffer)
@@ -35,8 +35,8 @@ export default class RomCard extends Card {
         }
     }
 
-    init(machine: Machine) {
-        super.init(machine)
+    init() {
+        super.init()
 
         var buffer = fs.readFileSync(this.options.filename)
         const data = new Uint8Array(buffer)
@@ -44,7 +44,7 @@ export default class RomCard extends Card {
         for (let i = 0; i < this.options.size; i++)
             this.rom.setUint8(i, data[i])
 
-        machine.registerAddressSpace(this, this.options.start_address, this.options.size)
+        this.machine.registerAddressSpace(this, this.options.start_address, this.options.size)
     }
 
     reset() {
